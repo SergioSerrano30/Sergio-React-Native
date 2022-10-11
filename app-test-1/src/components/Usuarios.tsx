@@ -5,15 +5,29 @@ import { ReqRespUsuariosListado, Usuario } from "../interfaces/reqResp";
 export const Usuarios = () => {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
 
-  useEffect(() => {
-    //Eq1: Llamado de la API
+  const sergioCargaUsuarios = async () => {
+    const sergioResponse = await //Eq1: llamado de la API
     reqRespApi
-      .get<ReqRespUsuariosListado>("/users")
+      .get<ReqRespUsuariosListado>("/users", {
+        params: {
+          page: sergioRefPage.current,
+        },
+      })
       .then((resp) => {
-        //console.log(resp.data.data);
-        setUsuarios(resp.data.data);
+        if (resp.data.data.length > 0) {
+          setUsuarios(resp.data.data);
+          sergioRefPage.current++;
+        } else {
+          alert("No hay mas registros");
+        }
       })
       .catch((err) => console.log(err));
+  };
+  const sergioRefPage = useRef(1);
+  useEffect(() => {
+    //Eq1: llamar función de carga de usuarios.
+
+    sergioCargaUsuarios();
   }, []);
   const renderItem = (usuario: Usuario) => {
     return (
@@ -50,6 +64,7 @@ export const Usuarios = () => {
           {usuarios.map((sergioArgUsuario) => renderItem(sergioArgUsuario))}
         </tbody>
       </table>
+      <button className="btn btn-primary">Siguiente</button>
     </>
   );
 };
