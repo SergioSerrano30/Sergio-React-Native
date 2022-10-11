@@ -23,7 +23,7 @@ export const Usuarios = () => {
       })
       .catch((err) => console.log(err));
   };
-  const sergioRefPage = useRef(1);
+  const sergioRefPage = useRef(0);
   useEffect(() => {
     //Eq1: llamar función de carga de usuarios.
 
@@ -64,7 +64,7 @@ export const Usuarios = () => {
           {usuarios.map((sergioArgUsuario) => renderItem(sergioArgUsuario))}
         </tbody>
       </table>
-      <button className="btn btn-primary">Siguiente</button>
+      <button className="btn btn-primary" onClick={sergioCargaUsuarios}>Siguiente</button>
     </>
   );
 };
