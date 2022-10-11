@@ -1,34 +1,11 @@
-import { useEffect, useRef, useState } from "react";
-import { reqRespApi } from "../api/reqRest";
-import { ReqRespUsuariosListado, Usuario } from "../interfaces/reqResp";
-
+// import { useEffect, useRef, useState } from "react";
+// import { reqRespApi } from "../api/reqResp";
+// import { ReqRespUsuariosListado, Usuario } from "../interfaces/reqResp";
+import { Usuario } from '../interfaces/reqResp';
+import { useUsuarios } from './hooks/useUsuarios';
 export const Usuarios = () => {
-  const [usuarios, setUsuarios] = useState<Usuario[]>([]);
-
-  const sergioCargaUsuarios = async () => {
-    const sergioResponse = await //Eq1: llamado de la API
-    reqRespApi
-      .get<ReqRespUsuariosListado>("/users", {
-        params: {
-          page: sergioRefPage.current,
-        },
-      })
-      .then((resp) => {
-        if (resp.data.data.length > 0) {
-          setUsuarios(resp.data.data);
-          sergioRefPage.current++;
-        } else {
-          alert("No hay mas registros");
-        }
-      })
-      .catch((err) => console.log(err));
-  };
-  const sergioRefPage = useRef(0);
-  useEffect(() => {
-    //Eq1: llamar función de carga de usuarios.
-
-    sergioCargaUsuarios();
-  }, []);
+  
+  const { usuarios, sergioAnterior, sergioSiguiente} = useUsuarios();
   const renderItem = (usuario: Usuario) => {
     return (
       <tr key={usuario.id.toString()}>
@@ -64,7 +41,9 @@ export const Usuarios = () => {
           {usuarios.map((sergioArgUsuario) => renderItem(sergioArgUsuario))}
         </tbody>
       </table>
-      <button className="btn btn-primary" onClick={sergioCargaUsuarios}>Siguiente</button>
+      <button className="btn btn-primary" onClick={sergioAnterior}>Anterior</button>
+      &nbsp;
+      <button className="btn btn-primary" onClick={sergioSiguiente}>Siguiente</button>
     </>
   );
 };
