@@ -1,25 +1,9 @@
 import { useState } from "react";
+import { useForm } from "./hooks/useForm";
 
 export const Formularios = () => {
-  const [formulario, setForumulario] = useState({
-    email: "test@test.com",
-    password: "123",
-  });
-  const onChange = (value: string, campo: string) => {
-    //Eq1: llamado a la función que cambia el useState
-    setForumulario({
-      //Eq1: desestructuramos los valores del useState
-      ...formulario,
-      //Eq1: aqui es como si estuvieramos mandando
-      //el atributo email o password. Dicho de otro modo
-      //los [] computan es decir compara el valor que trae
-      //el parametro "campo" y lo relaciona con el valor del
-      //useState. Por ultimo si encontro un atributo que se llame
-      //igual le asigna el valor que trae el parametro "value"
-      //de la funcion onChange.
-      [campo]: value,
-    });
-  };
+  const { formulario,onChange,email,password } = useForm()
+
   return (
     <>
       <h3>Formulario</h3>
@@ -27,7 +11,8 @@ export const Formularios = () => {
         type="text"
         className="form-control"
         placeholder="Email"
-        value={formulario.email}
+        //value={formulario.email}
+        value={email}
         //Eq1: una opcion es instanciando las propiedades del evento onChange.
         //onChange={(ev)=> onChange(ev.target.value, 'email')}
         onChange={({ target }) => onChange(target.value, "email")}
@@ -37,7 +22,8 @@ export const Formularios = () => {
         type="text"
         className="form-control mt-2 mb-2"
         placeholder="Password"
-        value={formulario.password}
+        //value={formulario.password}
+        value={password}
         //Eq1: una opcion es instanciando las propiedades del evento onChange.
         //onChange={(evento)=> onChange(evento.target.value, 'password')}
         //Eq1: otra opcion es desestructurando el target del control input.
